@@ -17,6 +17,7 @@ begin
 	using PlutoUI
 	using Dates
 	using Plots
+	using Clustering
 end
 
 # ╔═╡ 7e3846de-0d98-11eb-16ca-b3b6fd290a22
@@ -37,7 +38,7 @@ data_dir = "../data/"
 data_entries = data_dir .* readdir(data_dir)
 
 # ╔═╡ 7dffdc3e-0fd9-11eb-1110-e9d5e0afcea7
-data = CSV.read(data_entries[1]);
+data = CSV.read(data_entries[end]);
 
 # ╔═╡ 4178c9d2-0fda-11eb-3a43-376139cd6f28
 names(data)
@@ -149,7 +150,7 @@ unique([ length(episode) for episode in post_correction_glycaemiae ])
 #glycaemia[post_correction_intervals[6]]
 
 # ╔═╡ fca292cc-10ae-11eb-1e3f-173688dc10f9
-#plot(glycaemia[post_correction_intervals[35]])
+plot(glycaemia[post_correction_intervals[2]])
 
 # ╔═╡ 19476ce8-10c0-11eb-22d9-cf97f2019dcb
 _pp = plot();
