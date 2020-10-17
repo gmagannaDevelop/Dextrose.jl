@@ -39,10 +39,17 @@ data = CSV.read(data_entries[1]);
 # ╔═╡ 4178c9d2-0fda-11eb-3a43-376139cd6f28
 names(data)
 
+# ╔═╡ 3f95c168-105e-11eb-2c3d-f3f9dbbbcd9a
+md"""
+## Extract useful information 
+"""
+
 # ╔═╡ 6b74c526-0fdd-11eb-0e44-b922ac9e901f
 begin
 	basal = data["Basal Rate (U/h)"]
 	glycaemia = data["Sensor Glucose (mg/dL)"]
+	sensitivity = data["BWZ Insulin Sensitivity (mg/dL/U)"]
+	ratio =  data["BWZ Carb Ratio (g/U)"]
 end
 
 # ╔═╡ b8dca518-0fda-11eb-1e7e-edc7d359bf5e
@@ -61,7 +68,10 @@ plot(dates, glycaemia)
 plot(dates, basal)
 
 # ╔═╡ 3b8d4802-0fdc-11eb-2df2-0d877ec3ab96
+scatter(dates, ratio)
 
+# ╔═╡ b7d4a72a-105e-11eb-3582-af78a865e0b4
+scatter(dates, sensitivity)
 
 # ╔═╡ Cell order:
 # ╠═7e3846de-0d98-11eb-16ca-b3b6fd290a22
@@ -72,6 +82,7 @@ plot(dates, basal)
 # ╠═5dcea10c-0d9a-11eb-2f9f-434a79f73daa
 # ╠═7dffdc3e-0fd9-11eb-1110-e9d5e0afcea7
 # ╠═4178c9d2-0fda-11eb-3a43-376139cd6f28
+# ╟─3f95c168-105e-11eb-2c3d-f3f9dbbbcd9a
 # ╠═6b74c526-0fdd-11eb-0e44-b922ac9e901f
 # ╠═b8dca518-0fda-11eb-1e7e-edc7d359bf5e
 # ╠═d64772d4-0fda-11eb-171a-a902e70284c7
@@ -79,3 +90,4 @@ plot(dates, basal)
 # ╠═853d003e-0fda-11eb-068e-a7f659325b4a
 # ╠═3a7572dc-0fdc-11eb-3a1f-e3dfaeb46838
 # ╠═3b8d4802-0fdc-11eb-2df2-0d877ec3ab96
+# ╠═b7d4a72a-105e-11eb-3582-af78a865e0b4
