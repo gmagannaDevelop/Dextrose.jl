@@ -33,7 +33,7 @@ end
 
 # ╔═╡ 7e3846de-0d98-11eb-16ca-b3b6fd290a22
 md"""
-# Analysis of Glycaemic trends
+# Post-Correction Analysis
 """
 
 # ╔═╡ f2eecdea-0d98-11eb-2b2d-fb07509edcae
@@ -163,7 +163,8 @@ end
 
 # ╔═╡ bdb3c432-16da-11eb-2601-a17cdd87d07c
 """
-Potentially dangerous, but who cares ?
+	¿Cómo chingados no se va a poder calcular la media 
+	de las horas del día?
 """
 function mean_time(times_array)
 	_unix_mean_tmp = Libc.strftime(mean(Dates.value.(times_array)))
