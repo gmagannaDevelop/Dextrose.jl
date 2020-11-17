@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.4
+# v0.12.10
 
 using Markdown
 using InteractiveUtils
@@ -48,8 +48,14 @@ data_dir = "../data/"
 # ╔═╡ 5dcea10c-0d9a-11eb-2f9f-434a79f73daa
 data_entries = data_dir .* readdir(data_dir)
 
+# ╔═╡ 48b358f0-290e-11eb-26d2-915fc98810d6
+data_entries[end]
+
+# ╔═╡ 6ecd7716-290e-11eb-2a74-ed6abdbb6ab8
+
+
 # ╔═╡ 7dffdc3e-0fd9-11eb-1110-e9d5e0afcea7
-data = CSV.read(data_entries[end]);
+data = CSV.read(data_entries[end], DataFrame);
 
 # ╔═╡ 4178c9d2-0fda-11eb-3a43-376139cd6f28
 names(data)
@@ -104,8 +110,8 @@ md"""
 begin
 	# Block of constants :
 	## Time constants, in minutes :
-	MAX_INSULIN_DURATION = 180;
-	POSTPRANDIAL_TIME = 150;
+	MAX_INSULIN_DURATION = 180-1;
+	POSTPRANDIAL_TIME = 150-1;
 end
 
 # ╔═╡ c41cf2d8-16aa-11eb-3198-5fa6e26fbc45
@@ -474,6 +480,60 @@ plot_intervals(glycaemia, intervals_by_group[3], mean_time(hour_by_group[3]))
 # ╔═╡ 858d4fa8-16c4-11eb-1444-67f98d95b4ec
 result.centers
 
+# ╔═╡ bca0ad44-16f8-11eb-2183-63e9a36c1b99
+dummy_intervals = intervals_by_group[1]
+
+# ╔═╡ ef5cc1d2-16f8-11eb-2aa7-59356782ac83
+glycaemia[dummy_intervals[1]] .- glycaemia[dummy_intervals[1]][1]
+
+# ╔═╡ 014813d2-16fa-11eb-1a2a-7ffe9e01d4ee
+
+
+# ╔═╡ 6724948a-170b-11eb-2a7a-9d2a7709fa53
+normalised_glycaemia = deepcopy(glycaemia)
+
+# ╔═╡ db043496-170d-11eb-1f42-19b5a7cbc789
+plot_intervals(normalised_glycaemia, intervals_by_group[2][1:2], mean_time(hour_by_group[2]))
+
+# ╔═╡ 5f95e544-170f-11eb-02fa-634d2f5ff7d5
+plot_intervals(glycaemia, intervals_by_group[2][1:2], mean_time(hour_by_group[2]))
+
+# ╔═╡ b79d793e-16f9-11eb-1f92-29ec9080fb0b
+post_correction_glycaemiae
+
+# ╔═╡ 6ede9de2-16f9-11eb-3c75-850f24e8f007
+function substract_first(array)
+	_initial = array[1]
+	array .- _initial
+end
+
+# ╔═╡ 27a9605e-16f9-11eb-3be0-fb978268ddce
+substract_first.(post_correction_glycaemiae)
+
+# ╔═╡ a1be6710-170b-11eb-04eb-69937b4b49ba
+for interval in post_correction_intervals
+	normalised_glycaemia[interval] = substract_first(normalised_glycaemia[interval]) 
+end
+
+# ╔═╡ b6462954-170b-11eb-1297-efe0f592f191
+function substract_first!(array)
+	for i in 1:length(array)
+		array[i] = array[i] - array[1]
+	end
+end
+
+# ╔═╡ ccbd0a66-170b-11eb-2d6a-93ce3fef3b53
+foo = collect(reverse(50:100))
+
+# ╔═╡ 0ec2dbb2-1710-11eb-18ba-5dd77800e918
+foo
+
+# ╔═╡ dfdb45e2-170b-11eb-02e3-0d3f5e7fd782
+substract_first(foo)
+
+# ╔═╡ e7113400-170b-11eb-1c6c-77595c53dfda
+foo
+
 # ╔═╡ Cell order:
 # ╟─7e3846de-0d98-11eb-16ca-b3b6fd290a22
 # ╠═f2eecdea-0d98-11eb-2b2d-fb07509edcae
@@ -482,6 +542,8 @@ result.centers
 # ╠═4569bd20-0d9a-11eb-30c0-d98f9f6b3306
 # ╠═d05462fc-1076-11eb-0421-310c1326ed21
 # ╠═5dcea10c-0d9a-11eb-2f9f-434a79f73daa
+# ╠═48b358f0-290e-11eb-26d2-915fc98810d6
+# ╠═6ecd7716-290e-11eb-2a74-ed6abdbb6ab8
 # ╠═7dffdc3e-0fd9-11eb-1110-e9d5e0afcea7
 # ╠═4178c9d2-0fda-11eb-3a43-376139cd6f28
 # ╟─3f95c168-105e-11eb-2c3d-f3f9dbbbcd9a
@@ -557,3 +619,18 @@ result.centers
 # ╠═5f74485a-16d6-11eb-1ad4-47b17811be73
 # ╠═70b8e01c-16d6-11eb-00c1-c1e8685ad1a8
 # ╠═858d4fa8-16c4-11eb-1444-67f98d95b4ec
+# ╠═bca0ad44-16f8-11eb-2183-63e9a36c1b99
+# ╠═ef5cc1d2-16f8-11eb-2aa7-59356782ac83
+# ╠═014813d2-16fa-11eb-1a2a-7ffe9e01d4ee
+# ╠═27a9605e-16f9-11eb-3be0-fb978268ddce
+# ╠═6724948a-170b-11eb-2a7a-9d2a7709fa53
+# ╠═a1be6710-170b-11eb-04eb-69937b4b49ba
+# ╠═db043496-170d-11eb-1f42-19b5a7cbc789
+# ╠═5f95e544-170f-11eb-02fa-634d2f5ff7d5
+# ╠═b79d793e-16f9-11eb-1f92-29ec9080fb0b
+# ╠═6ede9de2-16f9-11eb-3c75-850f24e8f007
+# ╠═b6462954-170b-11eb-1297-efe0f592f191
+# ╠═ccbd0a66-170b-11eb-2d6a-93ce3fef3b53
+# ╠═0ec2dbb2-1710-11eb-18ba-5dd77800e918
+# ╠═dfdb45e2-170b-11eb-02e3-0d3f5e7fd782
+# ╠═e7113400-170b-11eb-1c6c-77595c53dfda
