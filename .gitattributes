@@ -1,0 +1,5 @@
+# Basic .gitattributes for a julia repo.
+
+*.html linguist-detectable=false
+build/*.html linguist-detectable=false
+
